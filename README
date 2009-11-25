@@ -1,0 +1,151 @@
+= Fat Model Auth
+
+Wikipedia defines Authorization as 'the function of specifying access rights to resources'
+Fat Model Auth allows the resources themselves to define these rights.
+
+== Fat Model Auth is a simple, clean authorization system for Rails
+
+* How simple?
+
+== Controller
+
+* Imagine you have a controller for Articles:
+      
+      before_filter :load_article
+      
+      def edit
+      end
+      
+      def update
+        # Update shazam
+      end
+      
+      private
+      
+      def load_article
+        Article.find(params[:id])
+      end
+
+* We want to ensure only the Articles Author can view the edit page or update
+* an Article.
+
+* Just Add a before filter:
+
+      before_filter :auth_required, :only => [:edit, :update]
+
+* Add it AFTER you load the article
+
+Go ahead and try and view the article
+
+* We are missing something:
+
+      undefined method 'allows' for #<Article:0x204a8d8>
+
+== Model
+
+* Just add the following to your Article model:
+
+      allows :edit, :update,
+        :if => proc {|article, user| article.author == user}
+
+* Need different rules for different actions:
+
+      allows :edit,
+        :if => proc {|article, user| article.author.name.eql? 'Jeff'}
+      
+      allows :update,
+        :if => proc {|article, user| article.allows_updating?}
+
+
+Control which functions are displayed to a user
+
+== View
+
+      <%= link_to('EDIT', edit_article_path(article)) if allowed_to? :edit => article -%>
+
+* What about groups of controls:
+
+      <% if allowed_to? :edit_or_destroy => article -%>
+        <funky>html</funky> 
+      <% end %>
+      
+
+Thats it.
+
+== Test First
+
+The rules that define access control, are defined in the model.
+If you are testing first, start with a unit test:
+
+* EDIT
+
+      assert @article.allows(@article.author).to_edit?
+      
+      deny @article.allows(@someone_else).to_edit?
+
+* UPDATE
+
+      assert @article.allows(@jeff).to_update?
+      
+      deny @article.allows(@sammy).to_update?
+
+These magic methods are created when you define 'allows' on your model.
+
+When you say 'auth_required' in a before filter:
+The plugin looks for an object based on the name of the controller:
+
+So if you put the before filter in the 'articles_controller'
+and you call the 'edit' action,
+
+it generates the following call:
+
+      @article.allows(current_user).to_edit?
+
+
+What happens if I am editing articles but I am not in the articles_controller?
+
+* Just add this to the controller
+      
+      class RestlessController < ApplicationController
+        def override_authority
+          @article
+        end
+      end
+
+== Remember
+
+1. A nil current_user will always return access_denied.
+
+== Access Denied is 404
+
+Thats right deal with it or fork it.
+
+Trying to access a resource without permission returns 404
+In other words:
+
+      "Say What?"
+
+
+== Testing my controllers
+
+      login_as @no_good_user
+      get :edit, :id => @article.id
+      
+      assert_response :not_found
+      assert_template 'public/404'
+
+
+== Testing my views
+
+Who does that?
+
+step 1. Install should_pricot
+      
+      login_as @no_good_user
+      get :edit, :id => @article.id
+      
+      element('#power_user a[@href="/create/havok"]').should_be_missing
+
+
+
+Copyright (c) 2009 [Brent Greeff], released under the MIT license
