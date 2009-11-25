@@ -1,6 +1,6 @@
 = Fat Model Auth
 
-Wikipedia defines Authorization as 'the function of specifying access rights to resources'
+Wikipedia defines Authorization as 'the function of specifying access rights to resources'.
 Fat Model Auth allows the resources themselves to define these rights.
 
 == Fat Model Auth is a simple, clean authorization system for Rails
