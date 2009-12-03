@@ -18,7 +18,7 @@ module FatModelAuth
         authority = override_authority
         raise FatModelAuth::AuthException, "override_authority defined but nil" if authority.nil?
       else
-        authority_name = params[:controller].to_singular
+        authority_name = params[:controller].singularize
         authority = instance_variable_get("@#{authority_name}")
         raise FatModelAuth::AuthException, "#{authority_name} is nil" if authority.nil?
       end
