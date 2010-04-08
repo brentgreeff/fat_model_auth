@@ -134,6 +134,14 @@ In other words:
       assert_response :not_found
       assert_template 'public/404'
 
+If you are using mock user, you may want to stub the response
+
+@good_user.stub!(:allows).and_return(FatModelAuth::CannedGateKeeper.allows(:edit))
+
+or
+
+@no_good_user.stub!(:allows).and_return(FatModelAuth::CannedGateKeeper.denies(:edit))
+
 
 == Testing my views
 
