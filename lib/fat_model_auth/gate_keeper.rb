@@ -23,7 +23,7 @@ module FatModelAuth
     
     def method_missing(method, *args)
       unless @map.has_key? method
-        raise NoMethodError, "undefined method allows(user).#{method} for #{@model}"
+        raise NoMethodError, "undefined method allows(user).#{method} for #{@model.inspect}"
       end
       return false if @user.nil?
       
