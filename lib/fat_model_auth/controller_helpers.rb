@@ -11,6 +11,18 @@ module FatModelAuth
       respond_with_404_page unless access_granted
     end
     
+    def access_denied?
+      authority = get_authority
+      
+      access_granted = authority.allows(current_user).send "to_#{params[:action]}?"
+      if access_granted
+        false
+      else
+        respond_with_404_page
+        true
+      end
+    end
+    
     private
     
     def get_authority

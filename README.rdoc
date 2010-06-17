@@ -125,6 +125,19 @@ In other words:
 
       "Say What?"
 
+== New & Create and complex conditons
+
+If you have complex conditions or when creating a new object
+it may not have the information you need in a before filter.
+
+You can always get the same result by being explicit in the method:
+      
+      # Articles controller
+      
+      def create
+        @article = current_user.articles.build(params[:article])
+        return if access_denied?
+      end
 
 == Testing my controllers
 
