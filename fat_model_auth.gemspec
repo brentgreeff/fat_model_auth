@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = %q{fat_model_auth}
-  s.version = "2.0.0"
+  s.version = "2.0.1"
   
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Brent Greeff"]
@@ -16,13 +16,13 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
-    "lib/default_classes_for_form_inputs.rb",
+    "lib/fat_model_auth.rb",
     "lib/fat_model_auth/canned_gate_keeper.rb",
     "lib/fat_model_auth/controller_helpers.rb",
     "lib/fat_model_auth/gate_keeper.rb",
     "lib/fat_model_auth/model_helpers.rb",
     "lib/fat_model_auth/view_helpers.rb",
-    "test/fat_model_auth.rb",
+    "test/fat_model_auth_test.rb",
     "test/test_helper.rb"
   ]
   s.homepage = %q{http://github.com/brentgreeff/fat_model_auth}
