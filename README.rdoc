@@ -5,7 +5,7 @@ Fat Model Auth allows the resources themselves to define these rights.
 
 == Install
 
-gem intall fat_model_auth (or use with bundler)
+      gem intall fat_model_auth (or use with bundler)
 
 == Fat Model Auth is a simple, clean authorization system for Rails
 
