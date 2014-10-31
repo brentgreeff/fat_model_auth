@@ -14,18 +14,18 @@ Fat Model Auth allows the resources themselves to define these rights.
 == Controller
 
 * Imagine you have a controller for Articles:
-      
+
       before_filter :load_article
-      
+
       def edit
       end
-      
+
       def update
         # Update shazam
       end
-      
+
       private
-      
+
       def load_article
         Article.find(params[:id])
       end
@@ -73,9 +73,9 @@ Control which functions are displayed to a user
 * What about groups of controls:
 
       <% if allowed_to? :edit_or_destroy => article -%>
-        <funky>html</funky> 
+        <funky>html</funky>
       <% end %>
-      
+
 
 Thats it.
 
@@ -87,13 +87,13 @@ If you are testing first, start with a unit test:
 * EDIT
 
       assert @article.allows(@article.author).to_edit?
-      
+
       deny @article.allows(@someone_else).to_edit?
 
 * UPDATE
 
       assert @article.allows(@jeff).to_update?
-      
+
       deny @article.allows(@sammy).to_update?
 
 These magic methods are created when you define 'allows' on your model.
@@ -112,7 +112,7 @@ it generates the following call:
 What happens if I am editing articles but I am not in the articles_controller?
 
 * Just add this to the controller
-      
+
       class RestlessController < ApplicationController
         def override_authority
           @article
@@ -138,9 +138,9 @@ If you have complex conditions or when creating a new object
 it may not have the information you need in a before filter.
 
 You can always get the same result by being explicit in the method:
-      
+
       # Articles controller
-      
+
       def create
         @article = current_user.articles.build(params[:article])
         return if access_denied?
@@ -150,7 +150,7 @@ You can always get the same result by being explicit in the method:
 
       login_as @no_good_user
       get :edit, :id => @article.id
-      
+
       assert_response :not_found
       assert_template 'public/404'
 
@@ -168,10 +168,10 @@ or
 Who does that?
 
 step 1. Install should_pricot
-      
+
       login_as @no_good_user
       get :edit, :id => @article.id
-      
+
       element('#power_user a[@href="/create/havok"]').should_be_missing
 
 
