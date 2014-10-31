@@ -1,3 +1,6 @@
 require 'rubygems'
 require 'minitest'
 require 'minitest/autorun'
+require 'fat_model_auth/model_helpers'
+require 'fat_model_auth/gate_keeper'
+require 'active_support'

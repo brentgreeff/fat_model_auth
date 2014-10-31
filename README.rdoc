@@ -56,9 +56,12 @@ Go ahead and try and view the article
 
       allows :edit,
         :if => proc {|article, user| article.author.name.eql? 'Jeff'}
-      
+
       allows :update,
         :if => proc {|article, user| article.allows_updating?}
+
+      allows :delete,
+        :unless => proc {|article, user| article.very_important?}
 
 
 Control which functions are displayed to a user
