@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class FatModelAuthTest < ActiveSupport::TestCase
+class FatModelAuthTest < Minitest::Test
   # Replace this with your real tests.
-  test "the truth" do
+  def test_the_truth
     assert true
   end
 end
