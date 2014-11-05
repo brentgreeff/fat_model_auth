@@ -39,7 +39,11 @@ module FatModelAuth
     end
 
     def respond_with_404_page
-      render "#{Rails.root}/public/404.html", status: 404, layout: false
+      if defined?(Rails)
+        render "#{Rails.root}/public/404.html", status: 404, layout: false
+      else
+        render nothing: true, status: 404, layout: false
+      end
     end
   end
 end

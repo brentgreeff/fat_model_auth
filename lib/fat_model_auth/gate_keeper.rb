@@ -1,6 +1,5 @@
 module FatModelAuth
   class GateKeeper
-
     def initialize(params)
       @map = {}
       add_rules(params)

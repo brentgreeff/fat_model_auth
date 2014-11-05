@@ -9,7 +9,7 @@ module FatModelAuth
         class_eval do
           cattr_accessor :gate_keeper
           self.gate_keeper = FatModelAuth::GateKeeper.new(params)
-          
+
           define_method "allows" do |user|
             self.gate_keeper.check(self, user)
           end
