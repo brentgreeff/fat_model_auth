@@ -1,17 +1,21 @@
-require 'rake'
-require 'rake/testtask'
-require 'rdoc/task'
+begin
+  require 'bundler/setup'
+  require 'bundler/gem_tasks'
+rescue LoadError
+  raise 'You must `gem install bundler` and `bundle install` to run rake tasks'
+end
 
 desc 'Default: run unit tests.'
-task :default => :test
+
+require 'rake/testtask'
 
 desc 'Test the fat_model_auth plugin.'
 Rake::TestTask.new(:test) do |t|
-  t.libs << 'lib'
   t.libs << 'test'
   t.pattern = 'test/**/*_test.rb'
-  t.verbose = true
 end
+
+require 'rdoc/task'
 
 desc 'Generate documentation for the fat_model_auth plugin.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
@@ -21,3 +25,5 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('README')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+
+task :default => :test

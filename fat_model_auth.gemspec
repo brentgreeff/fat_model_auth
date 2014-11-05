@@ -11,23 +11,16 @@ Gem::Specification.new do |s|
     "MIT-LICENSE",
     "README.rdoc"
   ]
-  s.files = [
-    "MIT-LICENSE",
-    "README.rdoc",
-    "Rakefile",
-    "VERSION",
-    "lib/fat_model_auth.rb",
-    "lib/fat_model_auth/canned_gate_keeper.rb",
-    "lib/fat_model_auth/controller_helpers.rb",
-    "lib/fat_model_auth/gate_keeper.rb",
-    "lib/fat_model_auth/model_helpers.rb",
-    "lib/fat_model_auth/view_helpers.rb",
-    "test/fat_model_auth_test.rb",
-    "test/test_helper.rb"
-  ]
+  s.files = `git ls-files`.split("\n")
+  s.test_files = `git ls-files -- test/*`.split("\n");
   s.homepage = %q{http://github.com/brentgreeff/fat_model_auth}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.6}
   s.summary = %q{Clean resource based Authorisation plugin for Rails.}
+
+  s.add_development_dependency('minitest', '~> 4.2')
+
+  s.add_dependency('activesupport', '>= 3.0.0')
+  s.add_dependency('actionpack',    '>= 3.0.0')
 end
