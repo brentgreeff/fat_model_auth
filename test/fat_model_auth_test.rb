@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class FatModelAuthTest < ActionController::TestCase
+class FatModelAuthTest < ActiveSupport::TestCase
   def setup
     @article = Article.new
   end
