@@ -8,15 +8,13 @@ class FatModelAuthTest < ActionController::TestCase
   end
 
   def test_response_when_not_logged_in
-    @controller.current_user = nil
-    @controller.article = @article
+    @controller.stubs(:current_user).returns(nil)
     @controller.expects(:respond_with_404_page)
     get :edit, :id => @article.id
   end
 
   def test_response_when_logged_in
-    @controller.current_user = :admin
-    @controller.article = @article
+    @controller.stubs(:current_user).returns(:admin)
     @controller.expects(auth_required: true)
     get :edit, :id => @article.id
   end

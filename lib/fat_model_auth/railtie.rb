@@ -2,7 +2,7 @@ require 'rails/railtie'
 
 module FatModelAuth
   class Railtie < Rails::Railtie
-    initializer "fat_model_auth.controller_helpers" do |app|
+    initializer "fat_model_auth.initialize" do |app|
       ActiveSupport.on_load :action_controller do
         include FatModelAuth::ControllerHelpers
       end
@@ -12,7 +12,7 @@ module FatModelAuth
       end
 
       ActiveSupport.on_load :action_view do
-        extend FatModelAuth::ViewHelpers
+        include FatModelAuth::ViewHelpers
       end
     end
   end
