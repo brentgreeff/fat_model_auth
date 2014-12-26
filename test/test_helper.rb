@@ -25,4 +25,4 @@ class ActiveSupport::TestCase
 end
 
 require 'article'
-require 'article_controller'
+require 'articles_controller'
