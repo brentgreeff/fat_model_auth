@@ -26,7 +26,7 @@ module FatModelAuth
     private
 
     def get_authority
-      if self.respond_to? :override_authority
+      if self.respond_to?(:override_authority, true)
         authority = override_authority
         raise FatModelAuth::AuthException, "override_authority defined but nil" if authority.nil?
       else
