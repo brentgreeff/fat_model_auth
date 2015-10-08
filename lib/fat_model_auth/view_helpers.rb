@@ -1,17 +1,11 @@
 module FatModelAuth
   module ViewHelpers
     def allowed_to?(options)
-      authority = options.values.first
+      actions, authority = options.first
 
-      actions(options).any? do |action|
+      actions.to_s.split('_or_').any? do |action|
         authority.allows(current_user).send "to_#{action}?"
       end
-    end
-
-    private
-
-    def actions(options)
-      options.keys.first.to_s.split('_or_')
     end
   end
 end
