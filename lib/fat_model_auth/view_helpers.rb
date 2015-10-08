@@ -3,10 +3,9 @@ module FatModelAuth
     def allowed_to?(options)
       authority = options.values.first
 
-      get_actions(options).each do |action|
-        return true if authority.allows(current_user).send "to_#{action}?"
+      get_actions(options).any? do |action|
+        authority.allows(current_user).send "to_#{action}?"
       end
-      return false
     end
 
     private
