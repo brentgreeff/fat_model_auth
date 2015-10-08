@@ -11,7 +11,7 @@ module FatModelAuth
     private
 
     def actions(options)
-      return options.keys.first.to_s.split('_or_')
+      options.keys.first.to_s.split('_or_')
     end
   end
 end
