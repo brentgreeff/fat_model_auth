@@ -1,4 +1,4 @@
-[![Build Status](https://semaphoreci.com/api/v1/brentgreeff/fat_model_auth/branches/master/badge.svg)](https://semaphoreci.com/brentgreeff/fat_model_auth)
+[![Build Status](https://semaphoreci.com/api/v1/brentgreeff/fat_model_auth/branches/master/badge.svg)](https://semaphoreci.com/brentgreeff/fat_model_auth) - [Example app - view installation diff](https://github.com/brentgreeff/basic_rails_5_api/commit/6f0cedff4077c1609d32567bfb889fc8fa908db7)
 
 # FatModelAuth
 
