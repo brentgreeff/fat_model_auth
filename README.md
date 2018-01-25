@@ -1,6 +1,9 @@
 # FatModelAuth
 
-Wikipedia defines Authorization as 'the function of specifying access rights to resources'.
+Wikipedia defines Authorization as:
+
+> “the function of specifying access rights to resources”
+
 Fat Model Auth allows the resources themselves to define these rights.
 
 ## Install
