@@ -1,5 +1,6 @@
 module FatModelAuth
   module ModelHelpers
+
     def allows(*params)
       if self.respond_to? :gate_keeper
         class_eval do

@@ -1,26 +1,36 @@
-Gem::Specification.new do |s|
-  s.name = %q{fat_model_auth}
-  s.version = "3.0.0"
+lib = File.expand_path("../lib", __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require "fat_model_auth/version"
 
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Brent Greeff"]
-  s.date = %q{2010-10-30}
-  s.description = %q{Clean resource based Authorisation plugin for Rails.}
-  s.email = %q{email@brentgreeff.com}
-  s.extra_rdoc_files = [
-    "MIT-LICENSE",
-    "README.rdoc"
-  ]
-  s.files = `git ls-files`.split("\n")
-  s.test_files = `git ls-files -- test/*`.split("\n");
-  s.homepage = %q{http://github.com/brentgreeff/fat_model_auth}
-  s.rdoc_options = ["--charset=UTF-8"]
-  s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.6}
-  s.summary = %q{Clean resource based Authorisation plugin for Rails.}
+Gem::Specification.new do |spec|
+  spec.name = "fat_model_auth"
+  spec.version = FatModelAuth::VERSION
+  spec.authors = ["Brent Greeff"]
+  spec.email = ["email@brentgreeff.com"]
 
-  s.add_development_dependency('minitest', '~> 4.2')
+  spec.summary = %q{Clean resource based Authorisation system for Rails.}
+  spec.description = %q{Define the rules for accessing resources through a simple DSL.}
+  spec.homepage = "https://github.com/brentgreeff/fat_model_auth"
+  spec.license = "MIT"
 
-  s.add_dependency('activesupport', '>= 3.0.0')
-  s.add_dependency('actionpack',    '>= 3.0.0')
+  spec.files = `git ls-files -z`.split("\x0").reject do |f|
+    f.match(%r{^(test|spec|features)/})
+  end
+  spec.bindir = "exe"
+  spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.require_paths = ["lib"]
+
+  spec.add_development_dependency "activesupport", "~> 5.1"
+  spec.add_development_dependency "activerecord", "~> 5.1"
+  spec.add_development_dependency "actionpack", "~> 5.1"
+  spec.add_development_dependency "sqlite3"
+
+  spec.add_development_dependency "bundler"
+  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "rspec"
+
+  spec.add_development_dependency "guard-rspec"
+  # spec.add_development_dependency "cucumber"
+  # spec.add_development_dependency "aruba"
+  spec.add_development_dependency "awesome_print"
 end

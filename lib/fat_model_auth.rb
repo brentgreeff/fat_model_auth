@@ -1,6 +1,8 @@
 require 'action_pack'
 require 'active_support'
 
+require "fat_model_auth/version"
+
 require 'fat_model_auth/railtie' if defined?(Rails)
 
 module FatModelAuth
