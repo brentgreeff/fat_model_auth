@@ -66,6 +66,7 @@ You need to define a `current_user` method in the application_controller, so tha
 
 If `current_user` is `nil`, the controller will always return access_denied.
 
+
 ## In the Article Model
 
 * Add the following:
@@ -75,11 +76,11 @@ allows :edit, :update,
   if: -> (article, user) { article.author == user }
 ```
 
-The article model now supports 2 methods:
+The article model now supports the allows instance method, with 2 chains:
 
 `@article.allows(current_user).to_edit?`
 
-- called on the edit action.
+- called from the #edit action when using the auth_required before_action.
 
 `@article.allows(current_user).to_update?`
 
@@ -114,9 +115,6 @@ When you call access_denied? fat_model_auth will ask the @article if access is a
 The following call is generated for you:
 
 `@article.allows(current_user).to_create?`
-
-
-The DSL will automatically add an `allows` instance method to the article model.
 
 
 ### What if you need different rules for different actions?
@@ -197,9 +195,7 @@ it "does not allow"
 end
 ```
 
-
-##Model specs
-
+## Model specs
 
 ### EDIT
 
