@@ -57,7 +57,7 @@ before_action :auth_required, only: [:edit, :update]
 
 auth_required will infer the name of the resource from the controller. In the case of articles_controller, it will look for an @article instance variable.
 
-Try and view the articles#edit page from a browser, or event better: re-run the spec.
+Try and view the articles#edit page from a browser:
 
 You should get an exception:
 
