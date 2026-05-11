@@ -16,6 +16,10 @@ RSpec.describe FatModelAuth::GateKeeper do
     it 'raises ArgumentError immediately' do
       expect { described_class.new([:edit, {}]) }.to raise_error(ArgumentError)
     end
+
+    it 'raises ArgumentError when if: is nil' do
+      expect { described_class.new([:edit, { if: nil }]) }.to raise_error(ArgumentError)
+    end
   end
 
   it 'is not confused when check is called again before reading the result' do
