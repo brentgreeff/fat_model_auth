@@ -12,6 +12,12 @@ RSpec.describe FatModelAuth::GateKeeper do
     expect(gate_keeper.check(nil, :guest).to_edit?).to be false
   end
 
+  context 'when allows is called with no condition' do
+    it 'raises ArgumentError immediately' do
+      expect { described_class.new([:edit, {}]) }.to raise_error(ArgumentError)
+    end
+  end
+
   it 'is not confused when check is called again before reading the result' do
     admin_check = gate_keeper.check(nil, :admin)
 
