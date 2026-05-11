@@ -14,7 +14,10 @@ module FatModelAuth
       auth_condition = options[:if] || negate(options[:unless])
 
       methods.each do |method|
-        @map[:"to_#{method}?"] = auth_condition
+        key = :"to_#{method}?"
+        raise ArgumentError, "rule for :#{method} is already defined" if @map.key?(key)
+
+        @map[key] = auth_condition
       end
     end
 

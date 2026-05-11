@@ -3,6 +3,8 @@
 RSpec.describe 'Article', type: :model do
   let(:article) { Article.create! }
 
+  after { Article.gate_keeper = nil }
+
   context 'when allowing admins to edit' do
     before do
       Article.class_eval do
