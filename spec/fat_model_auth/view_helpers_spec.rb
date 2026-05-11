@@ -6,11 +6,7 @@ require 'fat_model_auth/view_helpers'
 class TestViewContext
   include FatModelAuth::ViewHelpers
 
-  attr_writer :current_user
-
-  def current_user
-    @current_user
-  end
+  attr_accessor :current_user
 end
 
 RSpec.describe FatModelAuth::ViewHelpers do

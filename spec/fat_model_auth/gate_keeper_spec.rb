@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe FatModelAuth::GateKeeper do
   let(:gate_keeper) do
-    described_class.new([:edit, if: ->(_model, user) { user == :admin }])
+    described_class.new([:edit, { if: ->(_model, user) { user == :admin } }])
   end
 
   it 'correctly evaluates permissions for a single call' do
