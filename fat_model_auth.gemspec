@@ -30,6 +30,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'activerecord',  '>= 7.0'
   spec.add_dependency 'activesupport', '>= 7.0'
 
+  spec.add_development_dependency 'bundler-audit'
+  spec.add_development_dependency 'lefthook'
   spec.add_development_dependency 'ostruct'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec'
