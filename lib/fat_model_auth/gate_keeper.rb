@@ -9,7 +9,9 @@ module FatModelAuth
 
     def add_rules(params)
       *methods, options = params
-      raise ArgumentError, 'allows requires an :if or :unless condition' unless options.is_a?(Hash) && (options[:if] || options[:unless])
+      unless options.is_a?(Hash) && (options[:if] || options[:unless])
+        raise ArgumentError, 'allows requires an :if or :unless condition'
+      end
 
       auth_condition = options[:if] || negate(options[:unless])
 

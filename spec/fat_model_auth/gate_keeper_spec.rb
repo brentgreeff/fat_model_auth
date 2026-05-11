@@ -24,11 +24,11 @@ RSpec.describe FatModelAuth::GateKeeper do
 
   context 'when the same action is defined twice' do
     it 'raises ArgumentError' do
-      expect {
+      expect do
         described_class.new([:edit, { if: ->(_m, u) { u == :admin } }]).tap do |gk|
           gk.add_rules([:edit, { if: ->(_m, u) { u == :superuser } }])
         end
-      }.to raise_error(ArgumentError)
+      end.to raise_error(ArgumentError)
     end
   end
 
