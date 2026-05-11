@@ -1,20 +1,19 @@
+# frozen_string_literal: true
+
 module FatModelAuth
-  class AuthException < Exception; end
+  class AuthException < StandardError; end
 
   module ControllerHelpers
     protected
 
     def auth_required
-      authority = get_authority
-
-      access_granted = authority.allows(current_user).send "to_#{params[:action]}?"
+      access_granted = authority.allows(current_user).send("to_#{params[:action]}?")
       respond_with_404_page unless access_granted
     end
 
     def access_denied?
-      authority = get_authority
+      access_granted = authority.allows(current_user).send("to_#{params[:action]}?")
 
-      access_granted = authority.allows(current_user).send "to_#{params[:action]}?"
       if access_granted
         false
       else
@@ -25,24 +24,25 @@ module FatModelAuth
 
     private
 
-    def get_authority
-      if self.respond_to?(:override_authority, true)
-        authority = override_authority
-        raise FatModelAuth::AuthException, "override_authority defined but nil" if authority.nil?
+    def authority
+      if respond_to?(:override_authority, true)
+        result = override_authority
+        raise FatModelAuth::AuthException, 'override_authority defined but nil' if result.nil?
+
       else
         authority_name = controller_name.singularize
-        authority = instance_variable_get("@#{authority_name}")
-        raise FatModelAuth::AuthException, "#{authority_name} is nil" if authority.nil?
-      end
+        result = instance_variable_get("@#{authority_name}")
+        raise FatModelAuth::AuthException, "#{authority_name} is nil" if result.nil?
 
-      return authority
+      end
+      result
     end
 
     def respond_with_404_page
-      if defined?(Rails)
-        render file: "#{Rails.root}/public/404.html", status: 404, layout: false
+      if defined?(Rails) && Rails.respond_to?(:application) && Rails.application
+        render file: Rails.public_path.join('404.html'), status: :not_found, layout: false
       else
-        render nothing: true, status: 404, layout: false
+        head :not_found
       end
     end
   end

@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails/railtie'
 
 module FatModelAuth
   class Railtie < Rails::Railtie
-    initializer "fat_model_auth.initialize" do |app|
+    initializer 'fat_model_auth.initialize' do |_app|
       ActiveSupport.on_load :action_controller do
         include FatModelAuth::ControllerHelpers
       end

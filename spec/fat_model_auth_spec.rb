@@ -1,6 +1,7 @@
-RSpec.describe FatModelAuth do
+# frozen_string_literal: true
 
-  it "has a version number" do
-    expect(FatModelAuth::VERSION).to be
+RSpec.describe FatModelAuth do
+  it 'has a version number' do
+    expect(FatModelAuth::VERSION).not_to be_nil
   end
 end

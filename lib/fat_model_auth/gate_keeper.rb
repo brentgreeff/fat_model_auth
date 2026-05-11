@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FatModelAuth
   class GateKeeper
     def initialize(params)
@@ -9,8 +11,8 @@ module FatModelAuth
       *methods, options = params
       auth_condition = options[:if] || negate(options[:unless])
 
-      for method in methods
-        @map["to_#{method}?".to_sym] = auth_condition
+      methods.each do |method|
+        @map[:"to_#{method}?"] = auth_condition
       end
     end
 
@@ -20,21 +22,22 @@ module FatModelAuth
       self
     end
 
-    def method_missing(method, *args)
-      unless @map.has_key? method
-        raise NoMethodError, "undefined method allows(user).#{method} for #{@model.inspect}"
-      end
+    def method_missing(method, *_args)
+      raise NoMethodError, "undefined method allows(user).#{method} for #{@model.inspect}" unless @map.key?(method)
+
       return false if @user.nil?
 
       @map[method].call(@model, @user)
     end
 
+    def respond_to_missing?(method, include_private = false)
+      @map.key?(method) || super
+    end
+
     private
 
     def negate(predicate)
-      proc do |*args|
-        !predicate.call(*args)
-      end
+      proc { |*args| !predicate.call(*args) }
     end
   end
 end

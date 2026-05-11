@@ -1,114 +1,114 @@
-RSpec.describe 'Article', type: :model do
+# frozen_string_literal: true
 
+RSpec.describe 'Article', type: :model do
   let(:article) { Article.create! }
 
-  context 'When allowing admins to edit' do
+  context 'when allowing admins to edit' do
     before do
       Article.class_eval do
         allows :edit,
-          if: -> (article, user) { user.admin }
+               if: ->(_article, user) { user.admin }
       end
     end
 
-    context 'an Admin' do
-      let(:admin) { OpenStruct.new(admin: true) }
+    context 'when user is an admin' do
+      let(:admin) { double('user', admin: true) }
 
       it 'can edit' do
-        expect( article.allows( admin ).to_edit? ).to be true
+        expect(article.allows(admin).to_edit?).to be true
       end
     end
 
-    context 'NON Admin' do
-      let(:non) { OpenStruct.new(admin: false) }
+    context 'when user is not an admin' do
+      let(:non) { double('user', admin: false) }
 
-      it 'can NOT edit' do
-        expect( article.allows( non ).to_edit? ).to be false
+      it 'cannot edit' do
+        expect(article.allows(non).to_edit?).to be false
       end
     end
 
-    context 'Then adding another rule allowing publishers to publish' do
+    context 'when adding a second rule allowing publishers to publish' do
       before do
         Article.class_eval do
           allows :publish,
-            if: -> (article, user) { user.publisher }
+                 if: ->(_article, user) { user.publisher }
         end
       end
 
-      context 'a Publisher' do
-        let(:publisher) { OpenStruct.new(publisher: true) }
+      context 'when user is a publisher' do
+        let(:publisher) { double('user', publisher: true) }
 
         it 'can publish' do
-          expect( article.allows( publisher ).to_publish? ).to be true
+          expect(article.allows(publisher).to_publish?).to be true
         end
       end
 
-      context 'NON Publisher' do
-        let(:non) { OpenStruct.new(publisher: false) }
+      context 'when user is not a publisher' do
+        let(:non) { double('user', publisher: false) }
 
-        it 'can NOT publish' do
-          expect( article.allows( non ).to_publish? ).to be false
+        it 'cannot publish' do
+          expect(article.allows(non).to_publish?).to be false
         end
       end
 
-      context 'an Admin' do
-        let(:admin) { OpenStruct.new(admin: true) }
+      context 'when user is an admin' do
+        let(:admin) { double('user', admin: true) }
 
-        it 'can still edit' do
-          expect( article.allows( admin ).to_edit? ).to be true
+        it 'can still edit (rules accumulate)' do
+          expect(article.allows(admin).to_edit?).to be true
         end
-        # Rules can be added cumulatively
       end
     end
   end
 
-  context 'When allowing unless its a peon' do
+  context 'when using unless: to block peons' do
     before do
       Article.class_eval do
         allows :edit,
-          unless: -> (article, user) { user.peon }
+               unless: ->(_article, user) { user.peon }
       end
     end
 
-    context 'a Peon' do
-      let(:peon) { OpenStruct.new(peon: true) }
+    context 'when user is a peon' do
+      let(:peon) { double('user', peon: true) }
 
-      it 'can NOT edit' do
-        expect( article.allows( peon ).to_edit? ).to be false
+      it 'cannot edit' do
+        expect(article.allows(peon).to_edit?).to be false
       end
     end
 
-    context 'NON Peon' do
-      let(:privileged) { OpenStruct.new(peon: false) }
+    context 'when user is not a peon' do
+      let(:privileged) { double('user', peon: false) }
 
       it 'can edit' do
-        expect( article.allows( privileged ).to_edit? ).to be true
+        expect(article.allows(privileged).to_edit?).to be true
       end
     end
   end
 
-  context 'Trying to check a permission that does not exist' do
-    let(:admin) { OpenStruct.new(admin: true) }
+  context 'when checking a permission that does not exist' do
+    let(:admin) { double('user', admin: true) }
 
-    it 'should raise NoMethodError' do
-      expect {
-        article.allows( admin ).to_update?
-      }.to raise_error(NoMethodError)
+    it 'raises NoMethodError' do
+      expect do
+        article.allows(admin).to_update?
+      end.to raise_error(NoMethodError)
     end
   end
 
-  context 'A rule thats always true' do
+  context 'with a rule that is always true' do
     before do
       Article.class_eval do
         allows :edit,
-          if: -> (article, user) { true }
+               if: ->(_article, _user) { true }
       end
     end
 
-    context 'passed a NIL user' do
+    context 'when user is nil' do
       let(:user) { nil }
 
-      it 'will NOT allow' do
-        expect( article.allows( user ).to_edit? ).to be false
+      it 'does not allow' do
+        expect(article.allows(user).to_edit?).to be false
       end
     end
   end

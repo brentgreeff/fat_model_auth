@@ -1,19 +1,17 @@
+# frozen_string_literal: true
+
 module FatModelAuth
   class CannedGateKeeper
-    def self.allows(method)
-      self.new(method => true)
+    def self.allows(action)
+      new(action => true)
     end
 
-    def self.denies(method)
-      self.new(method => false)
+    def self.denies(action)
+      new(action => false)
     end
 
     def self.build(params)
-      self.new(params)
-    end
-
-    def allows(user)
-      self
+      new(params)
     end
 
     def initialize(params)
@@ -21,18 +19,26 @@ module FatModelAuth
       add_rules(params)
     end
 
-    def add_rules(params)
-      for param in params
-        response = param.pop
-        @map["to_#{param.pop}?".to_sym] = lambda { response }
-      end
+    def allows(_user)
+      self
     end
 
-    def method_missing(method, *args)
-      unless @map.has_key? method
-        raise NoMethodError, "undefined method allows(user).#{method} for #{self.class}"
-      end
+    def method_missing(method, *_args)
+      raise NoMethodError, "undefined method allows(user).#{method} for #{self.class}" unless @map.key?(method)
+
       @map[method].call
+    end
+
+    def respond_to_missing?(method, include_private = false)
+      @map.key?(method) || super
+    end
+
+    private
+
+    def add_rules(params)
+      params.each do |action, response|
+        @map[:"to_#{action}?"] = -> { response }
+      end
     end
   end
 end
