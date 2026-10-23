@@ -144,7 +144,7 @@ GEM
       rubocop (~> 1.86, >= 1.86.2)
     ruby-progressbar (1.13.0)
     securerandom (0.4.1)
-    sqlite3 (2.9.6)
+    sqlite3 (2.10.1)
       mini_portile2 (~> 2.8.0)
     thor (1.5.0)
     timeout (0.6.1)
